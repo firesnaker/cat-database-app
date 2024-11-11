@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script
+            src="https://unpkg.com/htmx.org@1.9.11"
+            integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0"
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="../css/tailwind.css" />
+        <title>Cat Images Database</title>
+    </head>
+    <body>
+        <div>
+            <img
+                src="https://static.vecteezy.com/system/resources/previews/029/753/183/non_2x/cat-wordmark-or-text-based-logo-design-on-white-background-illustration-vector.jpg"
+                alt="cat"
+                class="max-w-[200px] mx-auto"
+            />
+        </div>
+
+        <div class="container mx-auto p-4 max-w-screen-lg flex">
+            <div class="w-2/3">
+                <form
+                    class="w-full"
+                    hx-get="/search"
+                    hx-target="#cat-section"
+                >
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Your favorite cat's breed goes here! Enter the first 4 letters of the breed. e.g. beng, balie"
+                        class="w-3/4 py-2 px-6 rounded-full bg-slate-50"
+                    />
+                    <input
+                        type="submit"
+                        value="Search"
+                        class="py-2 px-6 bg-blue-700 text-white rounded-full"
+                    />
+                </form>
+
+                <div class="mt-12">
+                    <h2 class="text-xl font-semibold">Suggestions:</h2>
+                    {{range .Results}}
+                    <button
+                        class="py-2 px-6 m-2 outline-dashed outline-2 outline-blue-800 rounded-full bg-yellow-400"
+                        hx-get="/cat/{{ .id}}"
+                        hx-target="#cat-section"
+                    > {{with index .breeds 0}}{{.name}}{{end}}
+                    </button>
+                    {{end}}
+                </div>
+            </div>
+
+            <div
+                id="cat-section"
+                class="w-1/3 min-h-96 p-4 text-center flex justify-center items-center"
+            >
+                <p class="font-medium text-lg">
+                    Dive in and scout out your beloved Cats!
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
